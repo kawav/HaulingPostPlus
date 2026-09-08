@@ -1,0 +1,8 @@
+ID,Text,Comment
+HaulingPostPlus.Title,搬運站擴容,
+HaulingPostPlus.Desired,期望勞工數,
+HaulingPostPlus.Status,已分配：{0} · 期望：{1} · 容量：{2},
+HaulingPostPlus.Preview,放開後套用：{0},
+HaulingPostPlus.Hint,拖曳後放開即可套用；輸入數字後按 Enter 可精確設定。,
+HaulingPostPlus.StaffingHint,實際人數取決於可用勞動力與工作場所優先度。勞工頭像已改為人數摘要。,
+HaulingPostPlus.CapacityWarning,目前容量不是 1000，請檢查模組載入順序及其他工作場所模組。,

@@ -1,6 +1,6 @@
 {
   "Name": "Hauling Post Plus",
-  "Version": "0.1.2",
+  "Version": "0.1.3",
   "Id": "HaulingPostPlus",
   "MinimumGameVersion": "1.1.2.4",
   "Description": "Expand both factions' Hauling Posts to 1000 workers. Set each building's desired workers with a slider, numeric input, or 10 / 50 / 100 / 500 / 1000 presets. Requires Harmony. 搬运站扩容：每座建筑独立设置人数，支持滑块、数字输入和五档快捷按钮。",

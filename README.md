@@ -4,9 +4,9 @@
 
 [中文说明](#中文说明) · [English](#english)
 
-Hauling Post Plus 是一个为 Timberborn 搬运站增加大容量员工控制的模组。当前版本为 **0.1.2**，面向 Timberborn **1.1.2.4**。
+Hauling Post Plus 是一个为 Timberborn 搬运站增加大容量员工控制的模组。当前版本为 **0.1.3**，面向 Timberborn **1.1.2.4**。
 
-Hauling Post Plus adds high-capacity worker controls to Timberborn's Hauling Posts. The current version is **0.1.2**, targeting Timberborn **1.1.2.4**.
+Hauling Post Plus adds high-capacity worker controls to Timberborn's Hauling Posts. The current version is **0.1.3**, targeting Timberborn **1.1.2.4**.
 
 ## 中文说明
 
@@ -18,9 +18,19 @@ Hauling Post Plus adds high-capacity worker controls to Timberborn's Hauling Pos
 - `10` 按钮用于快速回到原版容量上限；新建搬运站的原版初始期望人数仍为 5。
 - 保留原版的暂停、工作优先级、海狸/机器人类型切换以及加减按钮。
 - 搬运站不再生成成百上千个员工头像，而是保留简洁的人数摘要，避免建筑面板超出屏幕。
-- 包含简体中文和英文界面文本。
+- 包含简体中文、繁体中文和英文界面文本，跟随游戏语言设置。
 
 本模组修改的是“期望员工数”。它不会增加城镇人口，也不会强制岗位立即招满；实际到岗人数仍取决于可用劳动力、工作时间和工作优先级。
+
+### 语言设置
+
+在游戏设置中选择简体中文、繁體中文或 English，并按游戏提示重启。模组面板会自动使用对应语言，无需额外语言包或语言切换模组。
+
+- 简体中文：`zhCN`，面板标题为“搬运站扩容”。
+- 繁體中文：`zhTW`，面板標題為「搬運站擴容」。在遊戲設定中選擇繁體中文並重新啟動遊戲即可使用。
+- English：`enUS`，面板标题为“Hauling Post Plus”。
+
+标题、人数摘要、拖动预览、操作提示和容量警告均提供三种语言。此功能针对游戏内面板；工坊标题、介绍和缩略图不会随游戏语言自动改变。语言切换不改变存档中的员工数。
 
 ### 依赖
 
@@ -67,9 +77,15 @@ Documents/Timberborn/Mods
 - The `10` preset quickly returns a building to the vanilla capacity. Newly built Hauling Posts still start with the vanilla desired count of 5.
 - Keeps the vanilla pause control, workplace priority, beaver/bot selection, and plus/minus buttons.
 - Replaces the potentially huge Hauling Post portrait grid with a compact worker-count summary so the entity panel remains usable.
-- Includes Simplified Chinese and English localization.
+- Includes Simplified Chinese, Traditional Chinese, and English localization, following the game's language setting.
 
 The mod changes the *desired* worker count. It does not create population or instantly fill jobs. Actual staffing still depends on available workers, working hours, and workplace priority.
+
+### Language settings
+
+Choose Simplified Chinese (`zhCN`), Traditional Chinese (`zhTW`), or English (`enUS`) in the game's settings and restart when prompted. The mod panel follows that setting automatically; no extra language pack or language-switching mod is required.
+
+All panel labels, staffing summaries, drag previews, hints, and capacity warnings are translated. This applies to the in-game panel, not the Workshop title, description, or thumbnail. Changing language does not change saved worker counts.
 
 ### Requirements
 
@@ -126,9 +142,9 @@ The plugin targets .NET Standard 2.1 and references locally installed Timberborn
 .\scripts\build.ps1 -Install
 ```
 
-The automated suite checks worker-count boundaries, preset values, Blueprint merges, current game API contracts, package contents, and Harmony behavior against both vanilla and Second Shift-style mock panels.
+The automated suite checks worker-count boundaries, preset values, Blueprint merges, current game API contracts, all three localization files and their format placeholders, package contents, and Harmony behavior against both vanilla and Second Shift-style mock panels.
 
-自动测试覆盖人数边界、预设值、Blueprint 合并、当前游戏 API 入口、发行包内容，以及原版与 Second Shift 风格模拟面板的 Harmony 行为。
+自动测试覆盖人数边界、预设值、Blueprint 合并、当前游戏 API 入口、三种语言的翻译文件与格式占位符、发行包内容，以及原版与 Second Shift 风格模拟面板的 Harmony 行为。
 
 ## Project layout / 项目结构
 

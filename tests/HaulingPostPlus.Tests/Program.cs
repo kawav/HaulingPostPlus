@@ -2,8 +2,11 @@ using System.IO.Compression;
 using System.Reflection;
 using System.Reflection.Metadata;
 using System.Reflection.PortableExecutable;
+using System.Text;
 using System.Text.Json.Nodes;
+using System.Text.RegularExpressions;
 using HaulingPostPlus.Core;
+using Microsoft.VisualBasic.FileIO;
 
 int passed = 0;
 void Check(string name, Action action)
@@ -133,6 +136,39 @@ if (args.Length != 2)
     throw new ArgumentException("Pass repository root and game installation directory for integration preflight.");
 string repo = Path.GetFullPath(args[0]);
 string game = Path.GetFullPath(args[1]);
+using (var localizations = ZipFile.OpenRead(Path.Combine(game, "Timberborn_Data", "StreamingAssets", "Modding", "Localizations.zip")))
+    foreach (string locale in new[] { "enUS", "zhCN", "zhTW" })
+        Check($"{locale} localization matches game locale, UI keys and format placeholders", () =>
+        {
+            Equal(true, localizations.GetEntry($"{locale}.csv") != null);
+            using var csv = new TextFieldParser(Path.Combine(repo, "mod", "Localizations", $"{locale}_HaulingPostPlus.csv"), new UTF8Encoding(false, true));
+            csv.SetDelimiters(",");
+            csv.HasFieldsEnclosedInQuotes = true;
+            Equal(true, csv.ReadFields()!.SequenceEqual(new[] { "ID", "Text", "Comment" }));
+            var entries = new Dictionary<string, string>(StringComparer.Ordinal);
+            while (!csv.EndOfData)
+            {
+                string[] fields = csv.ReadFields()!;
+                Equal(3, fields.Length);
+                Equal(false, string.IsNullOrWhiteSpace(fields[1]));
+                entries.Add(fields[0], fields[1]); // Duplicate IDs must fail.
+            }
+            string[] keys = { "Title", "Desired", "Status", "Preview", "Hint", "StaffingHint", "CapacityWarning" };
+            Equal(true, entries.Keys.Order().SequenceEqual(keys.Select(key => "HaulingPostPlus." + key).Order()));
+            foreach (var entry in entries)
+            {
+                string[] expected = entry.Key switch
+                {
+                    "HaulingPostPlus.Status" => new[] { "{0}", "{1}", "{2}" },
+                    "HaulingPostPlus.Preview" => new[] { "{0}" },
+                    _ => Array.Empty<string>()
+                };
+                var placeholders = Regex.Matches(entry.Value, @"\{\d+\}").Select(match => match.Value).Order();
+                Equal(true, placeholders.SequenceEqual(expected));
+                // Also reject malformed braces or unsupported argument indices.
+                _ = string.Format(entry.Value, 9, 10, 1000);
+            }
+        });
 using (var archive = ZipFile.OpenRead(Path.Combine(game, "Timberborn_Data", "StreamingAssets", "Modding", "Blueprints.zip")))
     foreach (string faction in new[] { "Folktails", "IronTeeth" })
         Check($"{faction} blueprint changes exactly two fields", () =>

@@ -78,13 +78,14 @@ try {
 
 $localizationDir = Join-Path $projectRoot 'mod\Localizations'
 $english = @(Import-Csv -LiteralPath (Join-Path $localizationDir 'enUS_HaulingPostPlus.csv') -Encoding utf8)
-$chinese = @(Import-Csv -LiteralPath (Join-Path $localizationDir 'zhCN_HaulingPostPlus.csv') -Encoding utf8)
-if ($english.Count -ne 7 -or $chinese.Count -ne 7) { throw 'Expected 7 localization keys per language.' }
-if (Compare-Object ($english.ID | Sort-Object) ($chinese.ID | Sort-Object)) { throw 'Localization keys do not match.' }
-foreach ($language in @($english, $chinese)) {
-    if (@($language.ID | Select-Object -Unique).Count -ne 7) { throw 'Duplicate localization keys.' }
+$languageCodes = @('enUS', 'zhCN', 'zhTW')
+foreach ($languageCode in $languageCodes) {
+    $language = @(Import-Csv -LiteralPath (Join-Path $localizationDir "${languageCode}_HaulingPostPlus.csv") -Encoding utf8)
+    if ($language.Count -ne 7) { throw "Expected 7 localization keys in $languageCode." }
+    if (Compare-Object ($english.ID | Sort-Object) ($language.ID | Sort-Object)) { throw "Localization keys do not match in $languageCode." }
+    if (@($language.ID | Select-Object -Unique).Count -ne 7) { throw "Duplicate localization keys in $languageCode." }
     foreach ($entry in $language) {
-        if (!$entry.Text) { throw "Empty localization: $($entry.ID)" }
+        if ([string]::IsNullOrWhiteSpace($entry.Text)) { throw "Empty localization in ${languageCode}: $($entry.ID)" }
         # Verify format strings used by the panel.
         $null = [string]::Format($entry.Text, 1, 2, 1000)
     }
@@ -106,7 +107,8 @@ $expectedFiles = @(
     'manifest.json', 'thumbnail.jpg', 'Scripts/HaulingPostPlus.dll',
     'Buildings/DistrictManagement/HaulingPost/HaulingPost.Folktails.blueprint.json',
     'Buildings/DistrictManagement/HaulingPost/HaulingPost.IronTeeth.blueprint.json',
-    'Localizations/enUS_HaulingPostPlus.csv', 'Localizations/zhCN_HaulingPostPlus.csv'
+    'Localizations/enUS_HaulingPostPlus.csv', 'Localizations/zhCN_HaulingPostPlus.csv',
+    'Localizations/zhTW_HaulingPostPlus.csv'
 )
 $actualFiles = @(Get-ChildItem -LiteralPath $package -File -Recurse | ForEach-Object { $_.FullName.Substring($package.Length + 1).Replace('\', '/') })
 if (Compare-Object $expectedFiles $actualFiles) { throw 'Unexpected package contents; game and dependency DLLs must not be distributed.' }
@@ -142,6 +144,7 @@ if ($Install) {
 }
 $report = [ordered]@{
     Version = $manifest.Version
+    Languages = $languageCodes
     BuildId = $buildId
     CreatedUtc = [DateTime]::UtcNow.ToString('O')
     GamePath = $GamePath
