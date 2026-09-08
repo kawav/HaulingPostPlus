@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AssemblyName>HaulingPostPlus</AssemblyName>
+    <Version>0.1.2</Version>
+    <Deterministic>true</Deterministic>
+    <DebugType>portable</DebugType>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="$(GameManagedPath)/Timberborn.*.dll" Private="false" />
+    <Reference Include="$(GameManagedPath)/Bindito.Core.dll" Private="false" />
+    <Reference Include="$(GameManagedPath)/UnityEngine.CoreModule.dll" Private="false" />
+    <Reference Include="$(GameManagedPath)/UnityEngine.UIElementsModule.dll" Private="false" />
+    <Reference Include="$(GameManagedPath)/UnityEngine.TextCoreTextEngineModule.dll" Private="false" />
+    <Reference Include="$(GameManagedPath)/System.Collections.Immutable.dll" Private="false" />
+    <Reference Include="0Harmony" HintPath="$(HarmonyPath)" Private="false" />
+  </ItemGroup>
+  <Target Name="CheckGameReferences" BeforeTargets="ResolveReferences">
+    <Error Condition="!Exists('$(GameManagedPath)/Timberborn.WorkSystem.dll')" Text="Set GameManagedPath to Timberborn_Data/Managed." />
+    <Error Condition="!Exists('$(HarmonyPath)')" Text="Set HarmonyPath to the installed Harmony mod's 0Harmony.dll." />
+  </Target>
+</Project>

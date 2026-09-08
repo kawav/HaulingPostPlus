@@ -1,0 +1,8 @@
+ID,Text,Comment
+HaulingPostPlus.Title,Hauling Post Plus,
+HaulingPostPlus.Desired,Desired workers,
+HaulingPostPlus.Status,Assigned: {0} · Desired: {1} · Capacity: {2},
+HaulingPostPlus.Preview,Release to apply: {0},
+HaulingPostPlus.Hint,Drag and release to apply. Type a number and press Enter for precision.,
+HaulingPostPlus.StaffingHint,Actual staffing depends on available workers and workplace priority. Worker portraits are replaced with this summary.,
+HaulingPostPlus.CapacityWarning,Capacity is not 1000. Check mod load order and other workplace mods.,

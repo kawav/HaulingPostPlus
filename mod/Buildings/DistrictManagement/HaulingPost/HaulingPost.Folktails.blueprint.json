@@ -1,0 +1,4 @@
+{
+  "WorkplaceSpec": { "MaxWorkers": 1000 },
+  "EnterableSpec": { "CapacityFinished": 1000 }
+}

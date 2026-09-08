@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <!-- The Workshop Harmony build targets Mono/.NET Framework, not .NET 10.
+         Use Windows' installed Framework without downloading reference packages. -->
+    <AutomaticallyUseReferenceAssemblyPackages>false</AutomaticallyUseReferenceAssemblyPackages>
+    <FrameworkPathOverride>$(SystemRoot)/Microsoft.NET/Framework64/v4.0.30319</FrameworkPathOverride>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DefineConstants Condition="'$(IncludeSecondShiftStub)' != 'false'">$(DefineConstants);SECOND_SHIFT_STUB</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Execute the production patches using real Harmony against mock panels.
+         No game/Unity implementation is loaded or copied by this test harness. -->
+    <Compile Include="../../src/HaulingPostPlus/WorkplacePortraitPatch.cs" Link="Production/WorkplacePortraitPatch.cs" />
+    <Compile Include="../../src/HaulingPostPlus/Core/PortraitPanelContracts.cs" Link="Production/PortraitPanelContracts.cs" />
+    <Compile Include="../../src/HaulingPostPlus/Core/SupportedTemplates.cs" Link="Production/SupportedTemplates.cs" />
+    <Reference Include="0Harmony" HintPath="$(HarmonyPath)" Private="true" />
+  </ItemGroup>
+</Project>
