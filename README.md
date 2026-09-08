@@ -1,5 +1,7 @@
 # Hauling Post Plus
 
+![搬运站扩容 / Hauling Post Plus](mod/thumbnail.jpg)
+
 [中文说明](#中文说明) · [English](#english)
 
 Hauling Post Plus 是一个为 Timberborn 搬运站增加大容量员工控制的模组。当前版本为 **0.1.2**，面向 Timberborn **1.1.2.4**。

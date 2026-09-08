@@ -90,6 +90,11 @@ foreach ($language in @($english, $chinese)) {
     }
 }
 
+$thumbnail = Get-Item -LiteralPath (Join-Path $projectRoot 'mod\thumbnail.jpg')
+if ($thumbnail.Length -eq 0 -or $thumbnail.Length -ge 1000000) {
+    throw 'Workshop thumbnail.jpg must be nonempty and smaller than 1 MB.'
+}
+
 $outputRoot = Join-Path $projectRoot "dist\$buildId"
 $package = Join-Path $outputRoot 'HaulingPostPlus'
 New-Item -ItemType Directory -Path $package | Out-Null
@@ -98,7 +103,7 @@ $scripts = Join-Path $package 'Scripts'
 New-Item -ItemType Directory -Path $scripts | Out-Null
 Copy-Item -LiteralPath (Join-Path $projectRoot 'src\HaulingPostPlus\bin\Release\netstandard2.1\HaulingPostPlus.dll') -Destination $scripts
 $expectedFiles = @(
-    'manifest.json', 'Scripts/HaulingPostPlus.dll',
+    'manifest.json', 'thumbnail.jpg', 'Scripts/HaulingPostPlus.dll',
     'Buildings/DistrictManagement/HaulingPost/HaulingPost.Folktails.blueprint.json',
     'Buildings/DistrictManagement/HaulingPost/HaulingPost.IronTeeth.blueprint.json',
     'Localizations/enUS_HaulingPostPlus.csv', 'Localizations/zhCN_HaulingPostPlus.csv'
